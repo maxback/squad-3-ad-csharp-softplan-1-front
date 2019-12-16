@@ -1,6 +1,8 @@
 {
   "name": "squad-3-central-erros-cliente",
   "version": "0.1.0",
+  "engines": {"node": "12.13.1"
+  },
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
