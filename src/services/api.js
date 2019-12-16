@@ -2,8 +2,7 @@ import axios from 'axios';
 import { getToken} from './auth.js';
 
 const api = axios.create({ 
-    baseURL: process.env.NODE_ENV === 'development' ?
-    'http://localhost:3000/' : 'https://app-squad-3-ad-csharp.herokuapp.com/api'
+    baseURL: 'https://app-squad-3-ad-csharp.herokuapp.com/api'
 });
 
 //    baseURL: 'http://localhost:3000/'
