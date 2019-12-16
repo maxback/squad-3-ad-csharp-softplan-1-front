@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import api from '../../services/api';
 
 import './styles.css';
-import { supportsCssVariables } from '@material/ripple/util';
 
 export default class Erro extends Component {
 
