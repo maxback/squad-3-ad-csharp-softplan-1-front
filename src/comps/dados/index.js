@@ -67,7 +67,8 @@ export default class Dados extends Component {
                                 onChange={this.handleChecked} />
                             </td>
                             <td>
-                                <ImagemArquivado  width="45" height="28" value={erro.error.SituationId === 2} />
+
+                                <ImagemArquivado  width="45" height="28" value={erro.error.situation.id === 2} />
                                 <p>{erro.error.level.name}</p>
                             </td>
                             <td>
