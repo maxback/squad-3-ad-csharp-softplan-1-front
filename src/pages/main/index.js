@@ -160,7 +160,9 @@ export default class Main extends Component {
             {
                 console.log(`achou item id ${selecionado}`);
                 console.log(ei);
-                let query = `/errors/${ei.error.id}/shelve`;
+                let arquivar = ei.error.situation.id === 1 ? "true" : "false";
+                console.log(arquivar);
+                let query = `/errors/${ei.error.id}/shelve/${arquivar}`;
                 this.apiExecute(query, "put");
             }
             return ei;
