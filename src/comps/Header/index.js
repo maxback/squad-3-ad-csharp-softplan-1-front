@@ -2,7 +2,7 @@ import React from 'react';
 import api from '../../services/api';
 import Banner from '../../comps/banner_user';
 
-import {isAutenticated} from  '../../services/auth.js';
+import {getTokenUsuario, getIdUsuario, isAutenticated} from  '../../services/auth.js';
 
 import './styles.css';
 
@@ -14,12 +14,12 @@ export default class Header extends React.Component {
       {
           super(props);
           if(this.props.log) console.log(props);
-  
+
           this.state = {
             msgUsuario : props.msgUsuario,
             idUsuario: props.idUsuario,
             autenticado: isAutenticated(),
-            usuario: {id : -1, token : "???"}
+            usuario: {id :  getIdUsuario(), token : getTokenUsuario()}
           };
       }
 
@@ -36,8 +36,12 @@ export default class Header extends React.Component {
                         console.log(this.state.autenticado);
                   }
 
-                  if(this.props.log) console.log("header: Carregando dados do usuário apra mostrar");
-                  this.loadUser(this.props.idUsuario);
+                  if(this.props.log) console.log("header: Carregando dados do usuário do storage local para  mostrar");
+                  
+                  let ids = getIdUsuario();
+                  let tokens = getTokenUsuario();
+                  this.setState({ usuario: {id: ids, token: tokens, autenticado: true}});
+                  if(this.props.log) console.log(this.state.usuario);    
             }
             else
             {
