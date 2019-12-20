@@ -5,6 +5,8 @@ const api = axios.create({
     baseURL: 'https://app-squad-3-ad-csharp.herokuapp.com/api'
 });
 
+//baseURL: 'https://app-squad-3-ad-csharp.herokuapp.com/api'
+
 //    baseURL: 'http://localhost:3000/'
     //tive que colcoar um proxi no arquivo package.json e deixei de chamar  https://localhost:5001/api
     //para chamar http://localhost:3000/
