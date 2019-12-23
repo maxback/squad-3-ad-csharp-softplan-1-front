@@ -15,13 +15,15 @@ const tiposFiltro = ([{id: "T", name: "Buscar por"}, {id: "L", name: "Level"}, {
 
 const logAtivo = true;
 
+const qtdDefaultregsPorPagina = 30;
+
 export default class Main extends Component {
    
     state = {
         erros: [],
         info: {},
         idAmbiente: 1, 
-        tamanhoPagina: 5,
+        tamanhoPagina: qtdDefaultregsPorPagina,
         tipoFiltro: "T",
         valorFiltro: "",
         paginaAtual: 1,
@@ -301,7 +303,7 @@ export default class Main extends Component {
     render() {
         //para facilitar o acesso
         const { selecionados, serverError, tipoFiltro, valorFiltro, tipoOrdenacao, erros, paginaAtual,
-              qtdItensSelecionados, idAmbiente, info} = this.state;
+              qtdItensSelecionados, idAmbiente, info, tamanhoPagina} = this.state;
 
         return (
                         
@@ -313,7 +315,7 @@ export default class Main extends Component {
 
                 <div className="actions">
                     <button disabled={paginaAtual === 1} onClick={this.prevPage}>Anterior</button>
-                    <div className="article">{paginaAtual}/{info.quantidadePaginas}</div>
+                    <div className="article">Página {paginaAtual} de {info.quantidadePaginas}</div>
                     <button disabled={paginaAtual === info.quantidadePaginas} onClick={this.nextPage}>Próxima</button>
                 </div>
 
@@ -333,8 +335,10 @@ export default class Main extends Component {
                     <button disabled={qtdItensSelecionados === 0} onClick={this.apagarItem}>Apagar</button>
                 </div>
 
+                
                 <Dados log={logAtivo} erros={erros} selecionados={selecionados} onChange={this.handleDataChanged} />
 
+                <div className="article">(Páginas de até {tamanhoPagina} registros)</div>
                 <div className="msg-erro"> {serverError}</div>
 
             </div>
