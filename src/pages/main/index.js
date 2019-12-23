@@ -59,7 +59,10 @@ export default class Main extends Component {
         let solicitacao = " query (" + verbo +")-> " + query;
         try
         {
-            if(logAtivo) console.log(solicitacao)
+            if(logAtivo) {
+                console.log(solicitacao);
+                console.log(obj);
+            }
 
             if(verbo === "get")
                 response = await api.get(query);
@@ -144,29 +147,28 @@ export default class Main extends Component {
     };
 
     arquivarItem = () => {
-        const {selecionados, idAmbiente, paginaAtual, tipoOrdenacao, tipoFiltro, valorFiltro} = this.state;
+        const {erros, selecionados, idAmbiente, paginaAtual, tipoOrdenacao, tipoFiltro, valorFiltro} = this.state;
 
         if(selecionados.length < 1)
         {
             if(logAtivo) console.log("Sem seleção");
             return;
         }
-        selecionados.map(id => {
-            /*
-            this.apiExecute(`/erro/{id}`, "put", {
-                id: id,
-                arquivado: this.deveArquivar()
-            });
-            */
-           let situacao = this.deveArquivar() ? 2 : 1;
-           this.apiExecute(`/erroroccurrences/{id}`, "put", {
-            id: id,
-            error: {
-                SituationId: situacao
+        let selecionado = selecionados[0];
+
+        erros.map(ei => {
+            console.log(`%%%%%% ${ei.id} == ${selecionado} -> ${ei.id == selecionado}`);
+            if(ei.id == selecionado)
+            {
+                console.log(`achou item id ${selecionado}`);
+                console.log(ei);
+                let arquivar = ei.error.situation.id === 1 ? "true" : "false";
+                console.log(arquivar);
+                let query = `/errors/${ei.error.id}/shelve/${arquivar}`;
+                this.apiExecute(query, "put");
             }
+            return ei;
         });
-        return id;
-        })
 
         this.loadErros("arquivarItem", idAmbiente, paginaAtual, tipoOrdenacao, tipoFiltro, valorFiltro);
     };
@@ -180,8 +182,8 @@ export default class Main extends Component {
         }
 
         selecionados.map(id => {
-            //this.apiExecute(`/erro/{id}`, "delete");
-            this.apiExecute(`/erroroccurrences/{id}`, "delete");
+            //this.apiExecute(`/erro/${id}`, "delete");
+            this.apiExecute(`/erroroccurrences/${id}`, "delete");
             
             return id;
         });
@@ -267,17 +269,17 @@ export default class Main extends Component {
         if (qtdItensSelecionados !== 1)
             return true;
 
+        let arquivado = false;    
         let id = selecionados[0];
         if(logAtivo) console.log(id);
-        const erroEncontrado = erros.find(erro => erro.id === id);
+        erros.map(err => {
+                if(err.id == id && err.error.situation.id == 2) {
+                    arquivado = true;
+                }
+                return err;
+        });
 
-        if(logAtivo) console.log("erroEncontrado:");
-        if(logAtivo) console.log(erroEncontrado);
-        let arquivado = false;
-        if(erroEncontrado !== undefined)
-        {
-          arquivado = erroEncontrado.arquivado;
-        }
+        const erroEncontrado = erros.find(erro => erro.id === id);
 
         if(arquivado === true)
             return false;

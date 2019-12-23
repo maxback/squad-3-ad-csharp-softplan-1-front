@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 import api from '../../services/api.js';
-import {setIdUsuario, login} from  '../../services/auth.js';
+import {setTokenUsuario, setIdUsuario, login} from  '../../services/auth.js';
 
 import Logo from "./logosp1.png";
 
@@ -31,6 +31,7 @@ class SignUp extends Component {
         const {access_token, user} = response.data;
         login(access_token);
         setIdUsuario(user.id);
+        setTokenUsuario(user.token);
         this.props.history.push("/app");
       } catch (err) {
         console.log(err);
